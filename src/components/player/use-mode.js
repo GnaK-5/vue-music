@@ -1,0 +1,33 @@
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+import { PLAY_MODE } from '@/assets/js/constant'
+
+export default function useMode () {
+  const store = useStore()
+  const playMode = computed(() => store.state.playMode)
+
+  const modeIcon = computed(() => {
+    const playMdoeVal = playMode.value
+    return playMdoeVal === PLAY_MODE.sequence ? 'icon-sequence'
+      : playMdoeVal === PLAY_MODE.random ? 'icon-random'
+        : 'icon-loop'
+  })
+
+  const modeText = computed(() => {
+    const playMdoeVal = playMode.value
+    return playMdoeVal === PLAY_MODE.sequence ? '顺序播放'
+      : playMdoeVal === PLAY_MODE.random ? '随机播放'
+        : '单曲循环'
+  })
+
+  function changeMode () {
+    const mode = (playMode.value + 1) % 3
+    store.dispatch('changeMode', mode)
+  }
+
+  return {
+    modeIcon,
+    modeText,
+    changeMode
+  }
+}
