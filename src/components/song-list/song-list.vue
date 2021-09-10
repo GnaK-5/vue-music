@@ -3,7 +3,7 @@
     <li class="item" v-for="(song, index) in songs" :key="song.id" @click="selectItem(song, index)">
       <div class="rank" v-if="rank">
         <span :class="getRankCls(index)">
-          {{ getRankText(index)}}
+          {{getRankText(index)}}
         </span>
       </div>
       <div class="content">
@@ -33,7 +33,7 @@ export default {
   emits: ['select'],
   methods: {
     getDesc (song) {
-      return `${song.singer}·${song.album}`
+      return `${song.singer}.${song.album}`
     },
     selectItem (song, index) {
       this.$emit('select', { song, index })

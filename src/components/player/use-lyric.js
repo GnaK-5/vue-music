@@ -31,7 +31,6 @@ export default function useLyric ({ songReady, currentTime }) {
     })
     // 判断 getLyric 执行之后 currentSong 和 newSong 是否相等
     if (currentSong.value.lyric !== lyric) {
-      debugger
       return
     }
 

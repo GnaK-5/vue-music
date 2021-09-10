@@ -1,9 +1,9 @@
 <template>
   <div class="singer" v-loading="!singers.length">
     <index-list :data="singers" @select="selectSinger"></index-list>
-    <router-view v-slot="{Component}">
+    <router-view v-slot="{ Component }">
       <transition appear name="slide">
-        <component :is="Component" :singer="selectedSinger"></component>
+        <component :is="Component" :data="selectedSinger" />
       </transition>
     </router-view>
   </div>
@@ -17,29 +17,28 @@ import { SINGER_KEY } from '@/assets/js/constant'
 
 export default {
   name: 'singer',
-  components: { IndexList },
-
+  components: {
+    IndexList
+  },
   data () {
     return {
       singers: [],
       selectedSinger: null
     }
   },
-
   async created () {
     const result = await getSingerList()
-    // console.log(result)
     this.singers = result.singers
   },
   methods: {
     selectSinger (singer) {
       this.selectedSinger = singer
-      this.catchSinger(singer)
+      this.cacheSinger(singer)
       this.$router.push({
         path: `/singer/${singer.mid}`
       })
     },
-    catchSinger (singer) {
+    cacheSinger (singer) {
       storage.session.set(SINGER_KEY, singer)
     }
   }
@@ -48,9 +47,9 @@ export default {
 
 <style lang="scss" scoped>
   .singer {
-      position: fixed;
-      width: 100%;
-      top: 88px;
-      bottom: 0;
-    }
+    position: fixed;
+    width: 100%;
+    top: 88px;
+    bottom: 0;
+  }
 </style>
